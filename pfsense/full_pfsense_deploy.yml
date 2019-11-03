@@ -1,0 +1,5 @@
+---
+### Run deploy and config ###
+
+  - import_playbook: deploy_pfsense.yml
+  - import_playbook: conf_pfsense.yml
