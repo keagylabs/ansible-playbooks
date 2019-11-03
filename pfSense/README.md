@@ -1,3 +1,15 @@
+full_pfsense_deploy.yml
+====================
+Runs two playbooks (deploy_pfsense.yml & conf_pfsense.yml).
+
+deploy_pfsense.yml
+====================
+Creates pfSense from template and modifies distributed port groups.
+
+conf_pfsense.yml
+====================
+Copys your pfSense config.xml to your remote router, clear config.cache, and reboots.
+
 Verified for following:
 =======================
 * VMware vCenter Server Appliance:
@@ -15,18 +27,3 @@ Requirements for templates:
 The below requirement are needed for Linux
 - open-vm-tools package
 - Perl package
-
-The below requirement are needed for Windows
-- VMware Tools
-
-full_pfsense_deploy.yml
-====================
-Runs the two playbooks (deploy_pfsense.yml & conf_pfsense.yml).
-
-deploy_pfsense.yml
-====================
-Creates pfSense from template and modifies distributed port groups.
-
-conf_pfsense.yml
-====================
-Copys your pfSense config.xml to your remote router, clear config.cache, and reboot.
