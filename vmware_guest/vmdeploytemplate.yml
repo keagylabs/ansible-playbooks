@@ -1,0 +1,64 @@
+---
+### Create A New Linux or Windows VM From Template ###
+
+- name: VM from template
+  hosts: localhost
+  gather_facts: false
+  connection: local
+  vars:
+    ### vCenter Information ###
+    vcenter_hostname: #Recommend Ansible Vault
+    vcenter_user: #Recommend Ansible Vault
+    vcenter_pass: #Recommend Ansible Vault
+    vcenter_dc: 
+    dc_cluster: 
+    dc_folder: 
+    ### VM Informatin ###
+    vm_template: 
+    vm_name: ""
+    vm_datastore: 
+    vm_disk_size: 
+    ### Hardware ###
+    vm_num_cpu: 
+    vm_cpu_cores_per_socket: #Must be multiple of vm_num_cpu
+    vm_memory: #Must be in MB
+    ### Network Adapter 1 ###
+    vm_net1:  #Distributed Port Group
+    vm_net1_type: static
+    vm_net1_ip: 
+    vm_net1_mask: 
+    vm_net1_gate: 
+    vm_net1_dns1: 
+    vm_net1_dns2: 
+
+  tasks:
+    - name: Create VM from template
+      vmware_guest:
+        validate_certs: False
+        hostname: "{{ vcenter_hostname }}"
+        username: "{{ vcenter_user }}"
+        password: "{{ vcenter_pass }}"
+        datacenter: "{{ vcenter_dc }}"
+        folder: "{{ dc_folder }}"
+        name: "{{ vm_name }}"
+        cluster: "{{ dc_cluster }}"
+        template: "{{ vm_template }}"
+        disk:
+          - size_gb: "{{ vm_disk_size }}"
+            datastore: "{{ vm_datastore }}"
+        networks:
+        - name: "{{ vm_net1 }}"
+          type: "{{ vm_net1_type }}"
+          ip: "{{ vm_net1_ip}}"
+          netmask: "{{ vm_net1_mask }}"
+          gateway: "{{ vm_net1_gate }}"
+        customization:
+          dns_servers:
+            - "{{ vm_net1_dns1 }}"
+            - "{{ vm_net1_dns2 }}"
+        hardware:
+          num_cpus: "{{ vm_num_cpu }}"
+          num_cpu_cores_per_socket: "{{ vm_cpu_cores_per_socket }}"
+          memory_mb: "{{ vm_memory }}"
+        state: poweredon
+      delegate_to: localhost
